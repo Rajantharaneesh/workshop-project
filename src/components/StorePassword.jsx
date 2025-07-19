@@ -1,5 +1,7 @@
 // src/components/StorePassword.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+
 
 const StorePassword = () => {
   const [entries, setEntries] = useState([]);
@@ -7,25 +9,62 @@ const StorePassword = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem('passwords')) || [];
+    setEntries(saved);
+  }, []);
+
   const handleAddEntry = (e) => {
     e.preventDefault();
     const newEntry = { website, username, password };
-    setEntries([...entries, newEntry]);
+    const updatedEntries = [...entries, newEntry];
+    setEntries(updatedEntries);
+    localStorage.setItem('passwords', JSON.stringify(updatedEntries));
     setWebsite('');
     setUsername('');
     setPassword('');
-    localStorage.setItem('passwords', JSON.stringify([...entries, newEntry]));
   };
 
   return (
     <div className="container">
-      <h2>Password Manager</h2>
-      <form onSubmit={handleAddEntry}>
-        <input type="text" placeholder="Website or App" value={website} onChange={(e) => setWebsite(e.target.value)} required />
-        <input type="text" placeholder="Username or Email" value={username} onChange={(e) => setUsername(e.target.value)} required />
-        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-        <button type="submit">Add Entry</button>
-      </form>
+      <motion.div
+        className="card"
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <h2>🔐 Password Manager</h2>
+        <form onSubmit={handleAddEntry}>
+          <label>🌐 Website or App</label>
+          <input
+            type="text"
+            placeholder="e.g. facebook.com"
+            value={website}
+            onChange={(e) => setWebsite(e.target.value)}
+            required
+          />
+
+          <label>👤 Username or Email</label>
+          <input
+            type="text"
+            placeholder="e.g. user@example.com"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+
+          <label>🔑 Password</label>
+          <input
+            type="password"
+            placeholder="Enter password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+
+          <button type="submit">➕ Add Entry</button>
+        </form>
+      </motion.div>
     </div>
   );
 };
