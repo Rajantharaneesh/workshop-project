@@ -36,3 +36,48 @@
     transform: rotate(360deg);
   }
 }
+
+/* ✅ Properly placed outside the @keyframes */
+.container {
+  max-width: 500px;
+  margin: auto;
+  padding: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+input {
+  padding: 10px;
+  font-size: 16px;
+}
+
+button {
+  padding: 10px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #2563eb;
+}
+
+.cards-container {
+  margin-top: 20px;
+  display: grid;
+  gap: 15px;
+}
+
+.card {
+  background: #1f2937;
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+}
